@@ -35,13 +35,11 @@ public class GameEngine extends SurfaceView implements Runnable {
     SurfaceHolder holder;
     Canvas canvas;
     Paint paintbrush;
-
-    int lineXPosition;
-    int lineYPosition;
-
+    
     Item item1, item2, item3;
     Player player;
     Rect hitbox;
+
 
 int lives= 3;
 int score = 0;
@@ -69,7 +67,7 @@ int score = 0;
         this.screenWidth = w;
         this.screenHeight = h;
 
-       
+
 
 
         player=new Player(this.getContext(),1400,100);
@@ -137,8 +135,6 @@ int score = 0;
     }
 
 
-
-
     public void redrawSprites() {
         if (this.holder.getSurface().isValid()) {
             this.canvas = this.holder.lockCanvas();
@@ -150,10 +146,26 @@ int score = 0;
             paintbrush.setColor(Color.WHITE);
 
             this.paintbrush.setColor(Color.BLACK);
-            this.canvas.drawRect(this.lineXPosition,
-                    this.lineYPosition,
-                    this.lineXPosition + 1500,
-                    this.lineYPosition + 30,
+            this.canvas.drawRect(100,
+                    150,
+                    100 + 1300,
+                    150 + 30,
+                    paintbrush);
+
+            this.canvas.drawRect(100,
+                    350 ,
+                    100 + 1300,
+                    350 + 30,
+                    paintbrush);
+            this.canvas.drawRect(100,
+                    550 ,
+                    100 + 1300,
+                    550 + 30,
+                    paintbrush);
+            this.canvas.drawRect(100,
+               750 ,
+                    100+ 1300,
+                    750 + 30,
                     paintbrush);
 
             this.canvas.drawBitmap(this.player.getImage(),this.player.getxPosition(),this.player.getyPosition(),paintbrush);
