@@ -13,6 +13,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class GameEngine extends SurfaceView implements Runnable {
@@ -35,12 +36,13 @@ public class GameEngine extends SurfaceView implements Runnable {
     SurfaceHolder holder;
     Canvas canvas;
     Paint paintbrush;
-    
-    Item item1, item2, item3;
+
+
     Player player;
     Rect hitbox;
+    Item item1, item2, item3;
 
-
+//List<Item> items = new ArrayList<Item>();
 int lives= 3;
 int score = 0;
     // -----------------------------------
@@ -70,10 +72,20 @@ int score = 0;
 
 
 
-        player=new Player(this.getContext(),1400,100);
-     item1=new Item(this.getContext(),800,100);
-    item2=new Item(this.getContext(),400, 400);
-    item3 = new Item(this.getContext(), 200, 200);
+        player=new Player(this.getContext(),1400,200);
+        item1 = new Item(this.getContext(), 100, 120);
+        item2 = new Item(this.getContext(), 100, 320);
+        item2 = new Item(this.getContext(), 100, 420);
+
+
+
+//        for (int i = 0; i < 10; i++) {
+//            Random r = new Random();
+//            int x = r.nextInt(this.screenWidth) + 1;
+//            int y = r.nextInt(this.screenHeight) + 1;
+//            Item item  = new Item(getContext(), 100,200);
+//            items.add(item);
+//        }
 
 
 
@@ -130,9 +142,50 @@ int score = 0;
     // GAME ENGINE FUNCTIONS
     // - update, draw, setFPS
     // ------------------------------
+    String personTapped="";
 
     public void updatePositions() {
+
+        if (personTapped.contentEquals("down")) {
+
+            this.player.setyPosition(this.player.getyPosition() + 30);
+
+            this.player.updateHitbox();
+            if(this.player.getyPosition() >= this.screenHeight){
+                personTapped = "up";
+
+            }
+        } else if (personTapped.contentEquals("up")) {
+
+            this.player.setyPosition(this.player.getyPosition() - 30);
+            this.player.updateHitbox();
+            if(this.player.getyPosition() <=0){
+          personTapped = "down";
+            }
+
+
+            }
+
+
+        double a =  this.player.getxPosition() - this.item1.getxPosition() ;
+        double b =  this.player.getyPosition() - this.item1.getyPosition();
+
+
+        double d = Math.sqrt((a * a) + (b * b));
+
+
+        double xn = (a / d);
+        double yn = (b / d);
+
+        int newX = this.item1.getxPosition() + (int) (xn * 15);
+        int newY = this.item1.getyPosition() + (int) (yn * 15);
+        this.item1.setxPosition(newX);
+        this.item1.setyPosition(newY);
+
     }
+
+
+
 
 
     public void redrawSprites() {
@@ -169,14 +222,14 @@ int score = 0;
                     paintbrush);
 
             this.canvas.drawBitmap(this.player.getImage(),this.player.getxPosition(),this.player.getyPosition(),paintbrush);
-           this.canvas.drawBitmap(this.item1.getImage(),this.item1.getxPosition(),this.item1.getyPosition(),paintbrush);
-           this.canvas.drawBitmap(this.item2.getImage(),this.item2.getxPosition(),this.item2.getyPosition(),paintbrush);
-            this.canvas.drawBitmap(this.item3.getImage(),this.item3.getxPosition(),this.item3.getyPosition(),paintbrush);
+          this.canvas.drawBitmap(this.item1.getImage(),this.item1.getxPosition(),this.item1.getyPosition(),paintbrush);
+          this.canvas.drawBitmap(this.item2.getImage(),this.item2.getxPosition(),this.item2.getyPosition(),paintbrush);
+//            this.canvas.drawBitmap(this.item3.getImage(),this.item3.getxPosition(),this.item3.getyPosition(),paintbrush);
 
    this.paintbrush.setColor(Color.BLACK);
             this.paintbrush.setTextSize(50);
-            this.canvas.drawText("Lives "+lives,800,800,paintbrush);
-            this.canvas.drawText("Score " + score, 1000, 800,paintbrush);
+            this.canvas.drawText("Lives "+lives,1300,100,paintbrush);
+            this.canvas.drawText("Score " + score, 1600, 100,paintbrush);
 
 
 
@@ -214,10 +267,26 @@ int score = 0;
         //@TODO: What should happen when person touches the screen?
         if (userAction == MotionEvent.ACTION_DOWN) {
 
+            float yPosition = event.getY();
+            float fingerXPosition = event.getX();
+            Log.d(TAG, "Person's pressed: "
+                    + fingerXPosition + ","
+                    + yPosition);
+
+            int middleOfScreen = this.screenHeight / 2;
+            if (yPosition <= middleOfScreen) {
+                personTapped = "up";
+            }
+            else if (yPosition > middleOfScreen) {
+                personTapped = "down";
+            }
         }
-        else if (userAction == MotionEvent.ACTION_UP) {
+
+        else if(this.fingerAction=="mouseup")
+        {
 
         }
+
 
         return true;
     }
