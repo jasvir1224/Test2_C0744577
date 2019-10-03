@@ -69,8 +69,7 @@ int score = 0;
         this.screenWidth = w;
         this.screenHeight = h;
 
-        this.lineXPosition = 100;
-        this.lineYPosition = 400;
+       
 
 
         player=new Player(this.getContext(),1400,100);
