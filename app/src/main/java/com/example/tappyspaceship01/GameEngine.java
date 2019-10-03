@@ -42,7 +42,7 @@ public class GameEngine extends SurfaceView implements Runnable {
     Rect hitbox;
     Item item1, item2, item3;
 
-//List<Item> items = new ArrayList<Item>();
+List<Item> items = new ArrayList<Item>();
 int lives= 3;
 int score = 0;
     // -----------------------------------
@@ -78,14 +78,14 @@ int score = 0;
         item2 = new Item(this.getContext(), 100, 420);
 
 
-
+        Random random = new Random();
+//
 //        for (int i = 0; i < 10; i++) {
-//            Random r = new Random();
-//            int x = r.nextInt(this.screenWidth) + 1;
-//            int y = r.nextInt(this.screenHeight) + 1;
-//            Item item  = new Item(getContext(), 100,200);
-//            items.add(item);
-//        }
+//            int ranx = random.nextInt(this.screenWidth) + 1;
+//            int rany = random.nextInt(this.screenHeight) + 1;
+//            Item f  = new Item(getContext(),ranx, rany);
+//            items.add(f);}
+
 
 
 
@@ -103,11 +103,12 @@ int score = 0;
         //@TODO: Start the player at the left side of screen
     }
     private void spawnEnemyShips() {
-        Random random = new Random();
+
+        }
 
         //@TODO: Place the enemies in a random location
 
-    }
+
 
     // ------------------------------
     // GAME STATE FUNCTIONS (run, stop, start)
@@ -166,23 +167,49 @@ int score = 0;
 
             }
 
+//        for (int j = 0; j < items.size(); j++) {
+//            // 0. Get the bullet out of the array
+//            Item i = items.get(j);
+//for item 1
 
-        double a =  this.player.getxPosition() - this.item1.getxPosition() ;
-        double b =  this.player.getyPosition() - this.item1.getyPosition();
+            double a = this.player.getxPosition() - this.item1.getxPosition();
+            double b = this.player.getyPosition() - this.item1.getyPosition();
 
 
-        double d = Math.sqrt((a * a) + (b * b));
+            double d = Math.sqrt((a * a) + (b * b));
 
 
-        double xn = (a / d);
-        double yn = (b / d);
+            double xn = (a / d);
+            double yn = (b / d);
 
-        int newX = this.item1.getxPosition() + (int) (xn * 15);
-        int newY = this.item1.getyPosition() + (int) (yn * 15);
-        this.item1.setxPosition(newX);
-        this.item1.setyPosition(newY);
+            int newX = this.item1.getxPosition() + (int) (xn * 15);
+            int newY = this.item1.getyPosition() + (int) (yn * 15);
+            this.item1.setxPosition(newX);
+            this.item1.setyPosition(newY);
+
+
+            //for item 2
+        double a1 = this.player.getxPosition() - this.item2.getxPosition();
+        double b1= this.player.getyPosition() - this.item2.getyPosition();
+
+
+        double d1 = Math.sqrt((a1 * a1) + (b1 * b1));
+
+
+        double xn1 = (a1 / d1);
+        double yn1 = (b1 / d1);
+
+        int newX1 = this.item2.getxPosition() + (int) (xn1 * 15);
+        int newY1 = this.item2.getyPosition() + (int) (yn1 * 15);
+        this.item2.setxPosition(newX1);
+        this.item2.setyPosition(newY1);
+
+
+        // Collision
 
     }
+
+
 
 
 
@@ -224,9 +251,15 @@ int score = 0;
             this.canvas.drawBitmap(this.player.getImage(),this.player.getxPosition(),this.player.getyPosition(),paintbrush);
           this.canvas.drawBitmap(this.item1.getImage(),this.item1.getxPosition(),this.item1.getyPosition(),paintbrush);
           this.canvas.drawBitmap(this.item2.getImage(),this.item2.getxPosition(),this.item2.getyPosition(),paintbrush);
-//            this.canvas.drawBitmap(this.item3.getImage(),this.item3.getxPosition(),this.item3.getyPosition(),paintbrush);
+//           this.canvas.drawBitmap(this.item3.getImage(),this.item3.getxPosition(),this.item3.getyPosition(),paintbrush);
 
-   this.paintbrush.setColor(Color.BLACK);
+
+//            for (int i = 0; i < items.size(); i++) {
+//                Item b = items.get(i);
+//                canvas.drawRect(b.getImage(), b.getxPosition(), b.getyPosition(), paintbrush);
+//            }
+
+            this.paintbrush.setColor(Color.BLACK);
             this.paintbrush.setTextSize(50);
             this.canvas.drawText("Lives "+lives,1300,100,paintbrush);
             this.canvas.drawText("Score " + score, 1600, 100,paintbrush);
